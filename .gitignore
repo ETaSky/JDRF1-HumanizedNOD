@@ -1,0 +1,6 @@
+.DS_Store
+tmp/
+Tmp/
+tmp*
+1-imported_seqs/
+2-demux/
