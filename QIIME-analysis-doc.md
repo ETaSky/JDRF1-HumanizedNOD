@@ -46,4 +46,38 @@ qiime dada2 denoise-paired \
     --o-table 3-dada/table.qza \
     --o-representative-sequences 3-dada/rep-seqs.qza \
     --o-denoising-stats 3-dada/denoising-stats.qza
+
+## Summarizing feature table
+qiime feature-table summarize \
+    --i-table 3-dada/table.qza \
+    --o-visualization 3-dada/table.qzv \
+    --m-sample-metadata-file Mapping_JDRF1_HumanizedNOD-20190210-KM.txt
+
+## Sumarizing representative sequences
+qiime feature-table tabulate-seqs \
+    --i-data 3-dada/rep-seqs.qza \
+    --o-visualization 3-dada/rep-seqs.qzv
+
+## Summarizing mapping file
+qiime metadata tabulate \
+	--m-input-file 3-dada/denoising-stats.qza \
+	--o-visualization 3-dada/denoising-stats.qzv
+
+## Build a phylogenetic tree for phylogeny based analysis
+qiime phylogeny align-to-tree-mafft-fasttree \
+    --i-sequences 3-dada/rep-seqs.qza \
+    --o-alignment 3-dada/aligned-rep-seqs.qza \
+    --o-masked-alignment 3-dada/masked-aligned-rep-seqs.qza \
+    --o-tree 3-dada/unrooted-tree.qza \
+    --o-rooted-tree 3-dada/rooted-tree.qza
+```
+
+## Taxanomy assignment
+
+Here the most updated silva database will be used for taxanomy assignment. Silva version is v132, it was trained on scikit-learn v0.19.1, compatible to QIIME2-2018.8.
+
+*Also it might need to set the temp file folder on the disk to prevent no space left on disk error, because the temp file is pretty large for this process* `export TMPDIR='/to/the/location/'`
+
+```
+qiime feature-classifier classify-sklearn --i-classifier ~/downloads/silva-132-99-515-806-nb-classifier-scikit-learn0.19.1.qza --i-reads 3-dada/rep-seqs.qza --o-classification 3-dada/taxonomy_silva132.qza --p-n-jobs 12 --verbose
 ```
