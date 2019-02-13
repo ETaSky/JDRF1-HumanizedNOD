@@ -81,3 +81,8 @@ Here the most updated silva database will be used for taxanomy assignment. Silva
 ```
 qiime feature-classifier classify-sklearn --i-classifier ~/downloads/silva-132-99-515-806-nb-classifier-scikit-learn0.19.1.qza --i-reads 3-dada/rep-seqs.qza --o-classification 3-dada/taxonomy_silva132.qza --p-n-jobs 12 --verbose
 ```
+
+## Further steps
+1. Check the sequencing depth and decide rarifaction level for diversity analysis
+2. Diversity analysis based on rarifaction
+3. Taxanomy analysis based on rarifaction
